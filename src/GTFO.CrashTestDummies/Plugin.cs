@@ -11,7 +11,7 @@ public class Plugin : BasePlugin
 {
     public const string GUID = "MindAttic.GTFO.CrashTestDummies";
     public const string NAME = "GTFO.CrashTestDummies";
-    public const string VERSION = "18.0.0";
+    public const string VERSION = "19.0.0";
 
     internal static ManualLogSource Logger { get; private set; } = null!;
     internal static CoroutineHost CoroutineHostInstance { get; private set; } = null!;

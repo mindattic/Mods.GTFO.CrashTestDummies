@@ -2,7 +2,7 @@
 
 A BepInEx mod for GTFO that keeps up to 100 sleeping Strikers alive around you, always spawned and recycled out of sight, so you always have targets to sneak up on or shoot while testing other mods.
 
-[![C#](https://img.shields.io/badge/language-C%23-239120)](src/GTFO.CrashTestDummies) [![.NET 6](https://img.shields.io/badge/.NET-6.0-512BD4)](src/GTFO.CrashTestDummies/GTFO.CrashTestDummies.csproj) [![BepInEx IL2CPP](https://img.shields.io/badge/BepInEx-IL2CPP-orange)](package/manifest.json) [![Version 18](https://img.shields.io/badge/version-18.0.0-blue)](package/CHANGELOG.md) [![License](https://img.shields.io/badge/license-all%20rights%20reserved-lightgrey)](#license)
+[![C#](https://img.shields.io/badge/language-C%23-239120)](src/GTFO.CrashTestDummies) [![.NET 6](https://img.shields.io/badge/.NET-6.0-512BD4)](src/GTFO.CrashTestDummies/GTFO.CrashTestDummies.csproj) [![BepInEx IL2CPP](https://img.shields.io/badge/BepInEx-IL2CPP-orange)](package/manifest.json) [![Version 19](https://img.shields.io/badge/version-19.0.0-blue)](package/CHANGELOG.md) [![License](https://img.shields.io/badge/license-all%20rights%20reserved-lightgrey)](#license)
 
 ```text
             drop point                 alarm door opens               every 60 s

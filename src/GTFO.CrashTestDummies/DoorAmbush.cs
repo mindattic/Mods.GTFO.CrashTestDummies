@@ -40,13 +40,17 @@ internal static class DoorAmbush
         }
 
         Plugin.Logger.LogInfo($"CrashTestDummies: alarm door opened - ambushing the far side near {farNode.Position}.");
+        // Through the safety wrapper like every other spawn routine (G.CTD-T47): an exception from the
+        // ambush scatter is logged and stops only this ambush.
         LevelRoutines.Start(
-            EnemySpawner.SpawnAround(
-                farNode.Position,
-                Settings.AmbushSkipFirstMeters.Value,
-                Settings.AmbushMaxDistanceMeters.Value,
-                Settings.MinSpacingMeters.Value,
-                Settings.AmbushCount.Value));
+            CoroutineSafety.Run(
+                EnemySpawner.SpawnAround(
+                    farNode.Position,
+                    Settings.AmbushSkipFirstMeters.Value,
+                    Settings.AmbushMaxDistanceMeters.Value,
+                    Settings.MinSpacingMeters.Value,
+                    Settings.AmbushCount.Value),
+                "door ambush"));
     }
 
     // A security door's gate is built from the area the players come from (m_linksFrom) into the first

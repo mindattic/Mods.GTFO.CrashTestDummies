@@ -14,6 +14,22 @@ internal static class AmbientSpawner
 {
     private const float MinIntervalSeconds = 1f;
 
+    private static bool warnedInvertedRange;
+
+    // G.CTD-T47: AmbientCountMin above AmbientCountMax (or a negative bound) is a config mistake, not a
+    // request for a negative or inverted range: use the two values as the range's ends, never below 0,
+    // and say so once.
+    private static (int lo, int hi) CountRange(int min, int max)
+    {
+        if (min > max && !warnedInvertedRange)
+        {
+            warnedInvertedRange = true;
+            Plugin.Logger.LogWarning(
+                $"CrashTestDummies: AmbientCountMin ({min}) is above AmbientCountMax ({max}); using {max}-{min}.");
+        }
+        return (Math.Max(0, Math.Min(min, max)), Math.Max(0, Math.Max(min, max)));
+    }
+
     /// <param name="run">The <see cref="LevelRoutines.Run"/> this loop belongs to; it ends once that level is over.</param>
     public static IEnumerator Routine(int run)
     {
@@ -31,7 +47,8 @@ internal static class AmbientSpawner
             if (!PlayerManager.TryGetLocalPlayerAgent(out var localAgent) || localAgent == null)
                 continue;
 
-            var count = UnityEngine.Random.Range(Settings.AmbientCountMin.Value, Settings.AmbientCountMax.Value + 1);
+            var (lo, hi) = CountRange(Settings.AmbientCountMin.Value, Settings.AmbientCountMax.Value);
+            var count = UnityEngine.Random.Range(lo, hi + 1);
             // Run through the safety wrapper: an exception from one ambient scatter must not end this
             // while(true) loop and silently stop ambient spawning for the rest of the level.
             yield return CoroutineSafety.Run(

@@ -20,7 +20,7 @@ A BepInEx mod for GTFO that keeps up to 100 sleeping Strikers alive around you, 
 ```
 
 Try it: run `build.ps1` to build into a Thunderstore Mod Manager profile and package
-`dist/GTFO.CrashTestDummies-18.0.0.zip` (Thunderstore package name `GtfoCrashTestDummies`).
+`dist/GTFO.CrashTestDummies-19.0.0.zip` (Thunderstore package name `GtfoCrashTestDummies`).
 
 ## Why
 
@@ -58,7 +58,7 @@ cd GTFO.CrashTestDummies
 ```
 
 Launch any rundown from that profile. `BepInEx/LogOutput.log` should show
-`GTFO.CrashTestDummies v18.0.0 loaded`, then on landing the chosen dummy type and
+`GTFO.CrashTestDummies v19.0.0 loaded`, then on landing the chosen dummy type and
 `spawning 100x 'Striker_Hibernate' (Hibernate).`
 
 ## Configuration
@@ -209,7 +209,7 @@ untested by `dotnet test` and only verifiable in-game.
 
 The Harmony patches and game calls in `src/GTFO.CrashTestDummies/` only run inside the game, so
 check those in-game after `build.ps1`: launch any rundown in the profile. `LogOutput.log` should show
-`GTFO.CrashTestDummies v18.0.0 loaded`, then on landing the chosen dummy type and
+`GTFO.CrashTestDummies v19.0.0 loaded`, then on landing the chosen dummy type and
 `spawning 100x 'Striker_Hibernate' (Hibernate).` Open an alarm-locked security door and it should log
 `alarm door opened - ambushing the far side near ...`, then `spawning 20x 'Striker_Hibernate' (Hibernate).`
 About a minute later it should log another `spawning Nx 'Striker_Hibernate' (Hibernate).` (N between 50

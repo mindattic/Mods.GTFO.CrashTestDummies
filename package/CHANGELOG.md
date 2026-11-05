@@ -1,5 +1,10 @@
 # Changelog
 
+## v20
+
+- Updated BepInEx dependency to `BepInExPack_GTFO-3.2.4`, moving in step with the GTFO.EZ family's
+  shared version number. No change in this mod's own behavior.
+
 ## v19
 
 - Moves in step with the GTFO.EZ family's shared version number (GTFO.EZ, GTFO.EZ.AbsurdWeapons,

@@ -2,7 +2,7 @@
 
 A BepInEx mod for GTFO that keeps up to 100 sleeping Strikers alive around you, always spawned and recycled out of sight, so you always have targets to sneak up on or shoot while testing other mods.
 
-[![C#](https://img.shields.io/badge/language-C%23-239120)](src/GTFO.CrashTestDummies) [![.NET 6](https://img.shields.io/badge/.NET-6.0-512BD4)](src/GTFO.CrashTestDummies/GTFO.CrashTestDummies.csproj) [![BepInEx IL2CPP](https://img.shields.io/badge/BepInEx-IL2CPP-orange)](package/manifest.json) [![Version 19](https://img.shields.io/badge/version-19.0.0-blue)](package/CHANGELOG.md) [![License](https://img.shields.io/badge/license-all%20rights%20reserved-lightgrey)](#license)
+[![C#](https://img.shields.io/badge/language-C%23-239120)](src/GTFO.CrashTestDummies) [![.NET 6](https://img.shields.io/badge/.NET-6.0-512BD4)](src/GTFO.CrashTestDummies/GTFO.CrashTestDummies.csproj) [![BepInEx IL2CPP](https://img.shields.io/badge/BepInEx-IL2CPP-orange)](package/manifest.json) [![Version 20](https://img.shields.io/badge/version-20.0.0-blue)](package/CHANGELOG.md) [![License](https://img.shields.io/badge/license-all%20rights%20reserved-lightgrey)](#license)
 
 ```text
             drop point                 alarm door opens               every 60 s
@@ -20,7 +20,7 @@ A BepInEx mod for GTFO that keeps up to 100 sleeping Strikers alive around you, 
 ```
 
 Try it: run `build.ps1` to build into a Thunderstore Mod Manager profile and package
-`dist/GTFO.CrashTestDummies-19.0.0.zip` (Thunderstore package name `GtfoCrashTestDummies`).
+`dist/GTFO.CrashTestDummies-20.0.0.zip` (Thunderstore package name `GtfoCrashTestDummies`).
 
 ## Why
 
@@ -48,7 +48,7 @@ Try it: run `build.ps1` to build into a Thunderstore Mod Manager profile and pac
 
 ## Quick start
 
-You need GTFO with BepInExPack_GTFO 3.2.3 in a Thunderstore Mod Manager profile that has been launched once (so `BepInEx/interop` exists), and the .NET 6 SDK.
+You need GTFO with BepInExPack_GTFO 3.2.4 in a Thunderstore Mod Manager profile that has been launched once (so `BepInEx/interop` exists), and the .NET 6 SDK.
 
 ```powershell
 git clone https://github.com/mindattic/GTFO.CrashTestDummies.git
@@ -58,7 +58,7 @@ cd GTFO.CrashTestDummies
 ```
 
 Launch any rundown from that profile. `BepInEx/LogOutput.log` should show
-`GTFO.CrashTestDummies v19.0.0 loaded`, then on landing the chosen dummy type and
+`GTFO.CrashTestDummies v20.0.0 loaded`, then on landing the chosen dummy type and
 `spawning 100x 'Striker_Hibernate' (Hibernate).`
 
 ## Configuration
@@ -120,12 +120,13 @@ drop point):
 20 / 10 m / 100 m from the far side of that door, wherever it is in the level):
 
 - A postfix on `LevelGeneration.LG_SecurityDoor.OnSyncDoorStatusChange` watches every door's networked status. `DoorAmbush` doesn't keep each door's last `eDoorStatus` (an alarm door passes through puzzle-activated, unlocked and opening on its way to open): it only remembers, by Unity instance ID, which doors it has seen `Closed_LockedWithChainedPuzzle_Alarm` (an alarm-scan lock). When one of those reaches `Open` it's forgotten, so each door ambushes once. On that open (host only), "the other side" is the room the door leads into: the gate's `m_linksTo` area (the first area of the zone it unlocks; `m_linksFrom` is the side players come from), cross-checked against `LG_Zone.m_sourceGate`, and its `m_courseNode`. Where the players are standing doesn't matter.
-- It then calls the same `EnemySpawner.SpawnAround` routine as the level-start scatter, but centered on that far node instead of the drop point, using the `Ambush.*` distance/count settings. `MinSpacingMeters`, `EnemyNameFilter` and `SpawnAsSleepers` are shared across all triggers.
+- It then calls the same `EnemySpawner.SpawnAround` routine as the level-start scatter, but centered on that far node instead of the drop point, using the `Ambush.*` distance/count settings. `MinSpacingMeters`, `EnemyNameFilter` and `SpawnAsSleepers` are shared across all triggers. Like every other spawn routine, it runs through `CoroutineSafety.Run`, so an exception mid-ambush is logged and stops only that ambush.
 
 **Ambient trickle** (`AmbientSpawner.cs`; `AmbientCountMin`/`AmbientCountMax`/`AmbientSkipFirstMeters`/
 `AmbientMaxDistanceMeters`, default 50-100 / 10 m / 100 m from the local player):
 
-- An infinite coroutine loops `yield return new WaitForSeconds(AmbientIntervalSeconds)` (default 60), then calls `SpawnAround` centered on the local player's current position with a random count in `[AmbientCountMin, AmbientCountMax]`.
+- An infinite coroutine loops `yield return new WaitForSeconds(AmbientIntervalSeconds)` (default 60), then calls `SpawnAround` centered on the local player's current position with a random count in `[AmbientCountMin, AmbientCountMax]`, also through `CoroutineSafety.Run` so one bad scatter can't kill the loop.
+- If `AmbientCountMin` is above `AmbientCountMax` (or either is negative), that's treated as a config mistake rather than an inverted or negative range: the two values are used as the range's ends (never below 0), and a warning is logged once.
 - Started from `StartupSequence` only after the on-drop scatter finishes (and only if the level hasn't ended meanwhile).
 
 **Cleanup** (`EnemyCleanup.cs`; `CleanupCheckIntervalSeconds`/`CleanupAfterSeconds`, default 30 s / 300 s):
@@ -209,7 +210,7 @@ untested by `dotnet test` and only verifiable in-game.
 
 The Harmony patches and game calls in `src/GTFO.CrashTestDummies/` only run inside the game, so
 check those in-game after `build.ps1`: launch any rundown in the profile. `LogOutput.log` should show
-`GTFO.CrashTestDummies v19.0.0 loaded`, then on landing the chosen dummy type and
+`GTFO.CrashTestDummies v20.0.0 loaded`, then on landing the chosen dummy type and
 `spawning 100x 'Striker_Hibernate' (Hibernate).` Open an alarm-locked security door and it should log
 `alarm door opened - ambushing the far side near ...`, then `spawning 20x 'Striker_Hibernate' (Hibernate).`
 About a minute later it should log another `spawning Nx 'Striker_Hibernate' (Hibernate).` (N between 50

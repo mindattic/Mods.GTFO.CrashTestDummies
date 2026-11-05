@@ -3,7 +3,14 @@
 ## v20
 
 - Updated BepInEx dependency to `BepInExPack_GTFO-3.2.4`, moving in step with the GTFO.EZ family's
-  shared version number. No change in this mod's own behavior.
+  shared version number.
+- **Bug fix:** the alarm-door ambush scatter now runs through the same `CoroutineSafety` wrapper as
+  the other spawn routines, so an exception partway through an ambush is logged and stops only that
+  ambush instead of risking a wider failure.
+- **Bug fix:** `AmbientCountMin` set above `AmbientCountMax` (or either left negative) is now treated
+  as a config mistake rather than a request for an inverted or negative range - the two values are
+  used as the range's ends, floored at 0, with a one-time warning logged instead of silent odd
+  behavior.
 
 ## v19
 

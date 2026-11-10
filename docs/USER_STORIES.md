@@ -65,3 +65,9 @@ _Nothing recorded yet._
 | G.CTD-T42 | 2026-10-26 | feature | closed | Lower the default population cap to 100 and add a framerate-based Performance Guard that recycles unseen dummies when FPS dips, so the mod self-manages instead of risking becoming a hindrance to gameplay; bump to v18 and repackage dist | PerformanceGuard.cs |
 | G.CTD-T43 | 2026-11-01 | chore | closed | Rename repo to Mods.GTFO.CrashTestDummies for mod organization (GitHub + folder + refs) | 778d3bc4022642205fa1300eb41626c063219863 |
 | G.CTD-T44 | 2026-11-01 | chore | closed | Cut v19 release: bump VERSION/manifest, rebuild and repackage dist/ | 3ee513a on main; dotnet build 0 warnings/0 errors; dist/GTFO.CrashTestDummies-19.0.0.zip built |
+| G.CTD-T45 | 2026-11-02 | docs | open | Adopt MindAttic.Agency docs-site pipeline, publish README to GitHub Pages (HOUSE-LAW-14) | — |
+| G.CTD-T46 | 2026-11-02 | fix | closed | Bughunt sweep, two passes: find and fix real bugs across tracked source (user request 2026-11-02) | — |
+| G.CTD-T47 | 2026-11-02 | fix | closed | Fix the open items the 2026-11-02 bughunt left for decision (door-ambush spawn through the error guard, validate AmbientCountMin<=Max) | — |
+| G.CTD-T48 | 2026-11-05 | chore | open | Bump BepInExPack_GTFO dependency to 3.2.4 and release v20.0.0 | — |
+| G.CTD-T49 | 2026-11-05 | docs | open | Audit README(s) for accuracy against current code/config and v20 release | — |
+| G.CTD-T50 | 2026-11-10 | chore | closed | Crash recovery: commit the command-catalog sync (.agent/commands/*.md) and regenerated docs/USER_STORIES.md left uncommitted by the session crash | — |
